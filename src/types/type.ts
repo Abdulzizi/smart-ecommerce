@@ -1,6 +1,6 @@
-import { StyleProp, TextStyle, ViewStyle } from "react-native";
+import { StyleProp, TextProps, TextStyle, ViewStyle } from "react-native";
 
-export type AppTextProps = {
+export type AppTextProps = TextProps & {
     children: React.ReactNode,
     style?: TextStyle | TextStyle[],
     variant?: 'small' | 'medium' | 'bold',

@@ -8,6 +8,7 @@ import AppTextInput from '../components/inputs/AppTextInput'
 import AppText from '../components/texts/AppText'
 import AppButton from '../components/buttons/AppButton'
 import { AppColor } from '../styles/colors'
+import { useNavigation } from '@react-navigation/native'
 
 const SignUpScreen = () => {
 
@@ -15,6 +16,8 @@ const SignUpScreen = () => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
+
+    const navigation = useNavigation();
 
     return (
         <AppSafeView style={styles.container}>
@@ -72,7 +75,7 @@ const SignUpScreen = () => {
 
             <AppText variant='small' style={styles.loginRedirect}>
                 Already have an account?{' '}
-                <AppText variant='small' style={{ color: AppColor.primary }}>
+                <AppText variant='small' style={{ color: AppColor.primary }} onPress={() => { navigation.navigate('SignInScreen' as never) }}>
                     Login
                 </AppText>
             </AppText>

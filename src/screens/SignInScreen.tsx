@@ -8,11 +8,14 @@ import AppTextInput from '../components/inputs/AppTextInput'
 import AppText from '../components/texts/AppText'
 import AppButton from '../components/buttons/AppButton'
 import { AppColor } from '../styles/colors'
+import { useNavigation } from '@react-navigation/native'
 
 const SignInScreen = () => {
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+
+    const navigation = useNavigation();
 
     return (
         <AppSafeView style={styles.container}>
@@ -59,7 +62,7 @@ const SignInScreen = () => {
                     textColor={AppColor.white} 
                     style={styles.buttonRegister} 
                     title='Sign Up' 
-                    onPress={() => { }} 
+                    onPress={() => { navigation.navigate('SignUpScreen' as never) }} 
                 />
             </View>
 
