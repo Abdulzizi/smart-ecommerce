@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
         fontSize: s(16),
         color: AppColor.text
     },
-    large: {
+    bold: {
         fontFamily: 'Poppins_700Bold',
         fontSize: s(18),
         color: AppColor.text
