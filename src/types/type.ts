@@ -20,3 +20,12 @@ export type AppButtonProps = {
     styleTitle?: StyleProp<TextStyle> | StyleProp<TextStyle>[],
     disabled?: boolean,
 }
+
+export type AppTextInputProps = {
+    value?: string,
+    onChangeText?: (text: string) => void,
+    placeholder?: string,
+    secureTextEntry?: boolean,
+    keyboardType?: 'default' | 'email-address' | 'numeric' | 'phone-pad',
+    style?: TextStyle | TextStyle[],
+}
