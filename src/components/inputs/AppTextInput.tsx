@@ -22,6 +22,7 @@ export default AppTextInput
 
 const styles = StyleSheet.create({
     input: {
+        width: '100%',
         borderWidth: 1,
         borderColor: "#E0E0E0",
         borderRadius: s(8),              

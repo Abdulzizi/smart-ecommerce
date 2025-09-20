@@ -19,6 +19,7 @@ export type AppButtonProps = {
     style?: ViewStyle | ViewStyle[],
     styleTitle?: StyleProp<TextStyle> | StyleProp<TextStyle>[],
     disabled?: boolean,
+    variant?: 'filled' | 'outline',
 }
 
 export type AppTextInputProps = {
