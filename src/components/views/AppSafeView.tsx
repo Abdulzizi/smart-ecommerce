@@ -4,7 +4,6 @@ import React, { FC } from 'react'
 
 import { AppColor } from '../../styles/colors'
 import { SafeViewProps } from '../../types/type'
-import { IS_ANDROID } from '../../constants/constant'
 
 const AppSafeView: FC<SafeViewProps> = ({ children, style }) => {
     return (
@@ -22,7 +21,7 @@ const styles = StyleSheet.create({
     safeArea: {
         flex: 1,
         backgroundColor: AppColor.background,
-        paddingTop: IS_ANDROID ? StatusBar.currentHeight || 0 : 0
+        // paddingTop: IS_ANDROID ? StatusBar.currentHeight : 0,
     },
     container: {
         flex: 1,
