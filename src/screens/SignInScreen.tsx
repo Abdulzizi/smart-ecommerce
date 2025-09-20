@@ -54,7 +54,7 @@ const SignInScreen = () => {
                     textColor={AppColor.white} 
                     style={styles.buttonLogin} 
                     title='Login' 
-                    onPress={() => { }} 
+                    onPress={() => { navigation.navigate('MainAppBottomTabs' as never) }} 
                 />
                 <AppButton 
                     variant='outline' 

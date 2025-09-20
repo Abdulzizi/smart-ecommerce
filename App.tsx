@@ -5,11 +5,12 @@ import SignInScreen from './src/screens/SignInScreen';
 import SignUpScreen from './src/screens/SignUpScreen';
 import AuthStack from './src/navigation/AuthStack';
 import { NavigationContainer } from '@react-navigation/native';
+import MainAppStack from './src/navigation/MainAppStack';
 
 export default function App() {
   return (
       <NavigationContainer>
-        <AuthStack />
+        <MainAppStack />
       </NavigationContainer>
     );
 }
