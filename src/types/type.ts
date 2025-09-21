@@ -30,3 +30,15 @@ export type AppTextInputProps = {
     keyboardType?: 'default' | 'email-address' | 'numeric' | 'phone-pad',
     style?: TextStyle | TextStyle[],
 }
+
+export type ProductCardProps = {
+    title: string,
+    price: number,
+    brand: string,
+    rating: number,
+    sold: number,
+    location: string,
+    discount: number,
+    imageURL: string,
+    onPress: () => void,
+}
