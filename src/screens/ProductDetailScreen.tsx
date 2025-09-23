@@ -1,5 +1,5 @@
 import { StyleSheet, View, Image, ScrollView, TouchableOpacity } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import { RouteProp, useRoute, useNavigation } from '@react-navigation/native'
 import { RootStackParamList } from '../types/type'
 import AppText from '../components/texts/AppText'
@@ -7,10 +7,13 @@ import AppButton from '../components/buttons/AppButton'
 import { s, vs } from 'react-native-size-matters'
 import { AppColor } from '../styles/colors'
 import { Ionicons } from '@expo/vector-icons'
+import ImageViewing from "react-native-image-viewing";
 
 type ProductDetailRouteProp = RouteProp<RootStackParamList, 'ProductDetail'>
 
 const ProductDetailScreen = () => {
+  const [visible, setVisible] = useState(false);
+
   const route = useRoute<ProductDetailRouteProp>()
   const navigation = useNavigation()
   const { product }: any = route.params
@@ -28,7 +31,17 @@ const ProductDetailScreen = () => {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: vs(100) }}
       >
-        <Image source={{ uri: product.imageURL }} style={styles.image} resizeMode="cover" />
+        <TouchableOpacity onPress={() => setVisible(true)}>
+          <Image source={{ uri: product.imageURL }} style={styles.image} resizeMode="cover" />
+        </TouchableOpacity>
+
+        <ImageViewing
+          images={[{ uri: product.imageURL }]}
+          imageIndex={0}
+          visible={visible}
+          onRequestClose={() => setVisible(false)}
+          animationType='slide'
+/>
 
         <AppText variant="bold" style={styles.title}>{product.title}</AppText>
         <AppText style={styles.brand}>{product.brand}</AppText>
@@ -61,7 +74,6 @@ const ProductDetailScreen = () => {
         <AppText style={styles.description}>{product.description}</AppText>
       </ScrollView>
 
-      {/* Footer Add to Cart */}
       <View style={styles.footer}>
         <AppButton
           title="Add to Cart"
