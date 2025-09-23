@@ -5,6 +5,7 @@ import CartScreen from "../screens/CartScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 import { AppColor } from "../styles/colors";
 import { vs } from "react-native-size-matters";
+import HomeStack from "./HomeStack";
 
 const Tab = createBottomTabNavigator();
 
@@ -18,8 +19,8 @@ export default function MainAppBottomTabs() {
                     backgroundColor: AppColor.white,
                     borderTopColor: AppColor.borderColor,
                     borderTopWidth: 1,
-                    height: vs(85),
-                    paddingBottom: vs(6),
+                    // height: vs(85),
+                    // paddingBottom: vs(6),
                     paddingTop: vs(6),
                 },
                 tabBarActiveTintColor: AppColor.primary,
@@ -41,7 +42,7 @@ export default function MainAppBottomTabs() {
                 },
             })}
         >
-            <Tab.Screen name="Home" component={HomeScreen} />
+            <Tab.Screen name="Home" component={HomeStack} />
             <Tab.Screen name="Cart" component={CartScreen} />
             <Tab.Screen name="Profile" component={ProfileScreen} />
         </Tab.Navigator>

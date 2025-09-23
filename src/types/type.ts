@@ -42,3 +42,9 @@ export type ProductCardProps = {
     imageURL: string,
     onPress: () => void,
 }
+
+export type RootStackParamList = {
+  AuthStack: undefined;
+  MainAppBottomTabs: undefined;
+  ProductDetail: { item: object };
+};

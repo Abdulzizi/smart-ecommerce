@@ -3,8 +3,13 @@ import React from 'react'
 import { products } from '../../data/products'
 import ProductCard from '../cards/ProductCard'
 import { AppColor } from '../../styles/colors'
+import { useNavigation } from '@react-navigation/native'
+import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs'
 
 const ProductList = () => {
+    const navigation = useNavigation();
+    const tabBarHeight = useBottomTabBarHeight();
+
     return (
         <View style={styles.container}>
             <FlatList
@@ -20,7 +25,7 @@ const ProductList = () => {
                         location={item.location}
                         discount={item.discount}
                         imageURL={item.imageURL}
-                        onPress={() => console.log('Product pressed', item.title)}
+                        onPress={() => navigation.navigate('ProductDetail', { product: item })}
                     />
                 )}
                 numColumns={2}
@@ -29,8 +34,8 @@ const ProductList = () => {
                 ListEmptyComponent={() => (
                     <Text style={styles.noProducts}>No products available</Text>
                 )}
-                contentContainerStyle={{ paddingBottom: 20 }}
                 ItemSeparatorComponent={() => <View style={{ height: 8 }} />}
+                contentContainerStyle={{ paddingBottom: tabBarHeight / 2}}
             />
         </View>
     )

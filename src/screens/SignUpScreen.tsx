@@ -117,6 +117,7 @@ const styles = StyleSheet.create({
         borderRadius: s(8),
     },
     buttonSignUp: {
+        width: '100%',
         borderRadius: s(10),
         height: s(42),
     },

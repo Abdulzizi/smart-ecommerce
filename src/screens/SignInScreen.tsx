@@ -108,10 +108,12 @@ const styles = StyleSheet.create({
         width: '100%',
     },
     buttonRegister: {
+        width: '100%',
         borderRadius: s(10),
         height: s(42),
     },
     buttonLogin: {
+        width: '100%',
         borderRadius: s(10),
         height: s(42),
     },
