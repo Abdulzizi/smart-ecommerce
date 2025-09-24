@@ -5,6 +5,9 @@ import { s } from 'react-native-size-matters'
 import { useNavigation } from '@react-navigation/native'
 import EmptyCart from '../components/carts/emptyCart'
 import CartItem from '../components/carts/CartItem'
+import CartItemList from '../components/carts/CartItemList'
+
+import {products} from '../data/products'
 
 const CartScreen = () => {
   const navigation = useNavigation<any>();
@@ -13,7 +16,7 @@ const CartScreen = () => {
     <AppSafeView style={styles.container}>
       {/* <EmptyCart /> */}
 
-      <CartItem />
+      <CartItemList items={products.map((product) => ({ product, qty: 1 }))} />
     </AppSafeView>
   )
 }

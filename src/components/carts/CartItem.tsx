@@ -6,40 +6,32 @@ import AppText from '../texts/AppText';
 import { AppColor } from '../../styles/colors';
 
 import { formatMoney } from '../../helpers/helper';
+import { CartItemProps } from '../../types/type';
 
-const CartItem = () => {
+const CartItem = ({ product, qty, onIncrease, onDecrease, onDelete }: CartItemProps) => {
     const [quantity, setQuantity] = useState(1);
 
-    const prod = {
-        id: 1,
-        title: 'iPhone 16 Pro Max',
-        price: 1199,
-        imageURL:
-            'https://2b.com.eg/media/catalog/product/cache/661473ab953cdcdf4c3b607144109b90/m/a/ma658.jpg',
-        brand: 'Apple',
-        discount: 10,
-    };
-
-    const subtotal = formatMoney(prod.price * quantity, "USD");
+    const subtotal = formatMoney(product.price * quantity, "USD");
 
     const handleIncrease = () => setQuantity((q) => q + 1);
     const handleDecrease = () => setQuantity((q) => (q > 1 ? q - 1 : 1));
+
     const handleDelete = () => {
-        console.log(`Delete product with id ${prod.id}`);
+        console.log(`Delete product with id ${product.id}`);
     };
 
     return (
         <View style={styles.container}>
-            <Image source={{ uri: prod.imageURL }} style={styles.image} />
+            <Image source={{ uri: product.imageURL }} style={styles.image} />
 
             <View style={styles.info}>
                 <AppText style={styles.title} numberOfLines={2} ellipsizeMode="tail">
-                    {prod.title}
+                    {product.title}
                 </AppText>
-                <AppText style={styles.brand}>{prod.brand}</AppText>
-                <AppText style={styles.price}>{formatMoney(prod.price, "USD")}</AppText>
-                {prod.discount > 0 && (
-                    <AppText style={styles.discount}>Save {prod.discount}%</AppText>
+                <AppText style={styles.brand}>{product.brand}</AppText>
+                <AppText style={styles.price}>{formatMoney(product.price, "USD")}</AppText>
+                {product.discount > 0 && (
+                    <AppText style={styles.discount}>Save {product.discount}%</AppText>
                 )}
 
                 <View style={styles.bottomRow}>
