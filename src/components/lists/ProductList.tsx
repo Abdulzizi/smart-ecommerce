@@ -7,7 +7,7 @@ import { useNavigation } from '@react-navigation/native'
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs'
 
 const ProductList = () => {
-    const navigation = useNavigation();
+    const navigation = useNavigation<any>();
     const tabBarHeight = useBottomTabBarHeight();
 
     return (
@@ -35,7 +35,7 @@ const ProductList = () => {
                     <Text style={styles.noProducts}>No products available</Text>
                 )}
                 ItemSeparatorComponent={() => <View style={{ height: 8 }} />}
-                contentContainerStyle={{ paddingBottom: tabBarHeight / 2}}
+                // contentContainerStyle={{ paddingBottom: tabBarHeight / 2}}
             />
         </View>
     )

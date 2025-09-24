@@ -8,6 +8,7 @@ import { s, vs } from 'react-native-size-matters'
 import { AppColor } from '../styles/colors'
 import { Ionicons } from '@expo/vector-icons'
 import ImageViewing from "react-native-image-viewing";
+import { calculateDiscountedPrice, formatMoney, pluralize } from '../helpers/helper'
 
 type ProductDetailRouteProp = RouteProp<RootStackParamList, 'ProductDetail'>
 
@@ -18,7 +19,9 @@ const ProductDetailScreen = () => {
   const navigation = useNavigation()
   const { product }: any = route.params
 
-  const finalPrice = product.price - (product.price * product.discount) / 100
+  const discountedPrice = calculateDiscountedPrice(product.price, product.discount);
+  const finalPrice = formatMoney(discountedPrice, "USD");
+  const oldPrice = formatMoney(product.price, "USD");
 
   return (
     <View style={styles.container}>
@@ -47,21 +50,22 @@ const ProductDetailScreen = () => {
         <AppText style={styles.brand}>{product.brand}</AppText>
 
         <View style={styles.priceRow}>
-          <AppText style={styles.price}>${finalPrice.toFixed(2)}</AppText>
+          <AppText style={styles.price}>{finalPrice}</AppText>
           {product.discount > 0 && (
-            <AppText style={styles.oldPrice}>${product.price}</AppText>
+            <AppText style={styles.oldPrice}>{oldPrice}</AppText>
           )}
         </View>
         {product.discount > 0 && (
           <AppText style={styles.discount}>{product.discount}% OFF</AppText>
         )}
 
-        {/* Rating + Location block */}
         <View style={styles.infoCard}>
           <View style={styles.row}>
             <Ionicons name="star" size={16} color="#FFD700" />
             <AppText style={styles.rating}>{product.rating}</AppText>
-            <AppText style={styles.sold}> | {product.sold} sold</AppText>
+            <AppText style={styles.sold}>
+              | {product.sold} {pluralize(product.sold, "sold", "sold")}
+            </AppText>
           </View>
 
           <View style={styles.row}>

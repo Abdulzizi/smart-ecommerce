@@ -6,27 +6,26 @@ import { Ionicons } from '@expo/vector-icons'
 import AppText from '../texts/AppText'
 import AppButton from '../buttons/AppButton'
 import { ProductCardProps } from '../../types/type'
+import { calculateDiscountedPrice, formatMoney, pluralize } from '../../helpers/helper'
 
-const ProductCard: FC<ProductCardProps> = ({ 
-    title, 
-    price, 
-    brand, 
-    rating, 
-    sold, 
-    location, 
-    discount, 
-    imageURL, 
+const ProductCard: FC<ProductCardProps> = ({
+    title,
+    price,
+    brand,
+    rating,
+    sold,
+    location,
+    discount,
+    imageURL,
     onPress
 }) => {
-    const finalPrice = price - (price * discount) / 100
+    const discountedPrice = calculateDiscountedPrice(price, discount);
+    const finalPrice = formatMoney(discountedPrice, "USD");
+    const oldPrice = formatMoney(price, "USD");
 
     return (
         <TouchableOpacity style={styles.card} activeOpacity={0.9} onPress={onPress}>
-            <Image
-                source={{ uri: imageURL }}
-                style={styles.image}
-                resizeMode="cover"
-            />
+            <Image source={{ uri: imageURL }} style={styles.image} resizeMode="cover" />
 
             <AppText style={styles.brand}>{brand}</AppText>
             <AppText style={styles.title} numberOfLines={2}>
@@ -34,11 +33,10 @@ const ProductCard: FC<ProductCardProps> = ({
             </AppText>
 
             <View style={styles.priceRow}>
-                <AppText style={styles.price}>${finalPrice.toFixed(2)}</AppText>
-                {discount > 0 && (
-                    <AppText style={styles.oldPrice}>${price}</AppText>
-                )}
+                <AppText style={styles.price}>{finalPrice}</AppText>
+                {discount > 0 && <AppText style={styles.oldPrice}>{oldPrice}</AppText>}
             </View>
+
             {discount > 0 && (
                 <AppText style={styles.discount}>{discount}% OFF</AppText>
             )}
@@ -46,7 +44,9 @@ const ProductCard: FC<ProductCardProps> = ({
             <View style={styles.row}>
                 <Ionicons name="star" size={12} color="#FFD700" />
                 <AppText style={styles.rating}>{rating}</AppText>
-                <AppText style={styles.sold}> | {sold} sold</AppText>
+                <AppText style={styles.sold}>
+                    | {sold} {pluralize(sold, "sold", "sold")}
+                </AppText>
             </View>
 
             <View style={styles.row}>
@@ -54,7 +54,12 @@ const ProductCard: FC<ProductCardProps> = ({
                 <AppText style={styles.location}>{location}</AppText>
             </View>
 
-            <AppButton styleTitle={styles.buttonTitle} style={styles.button} title='Add to cart' onPress={() => console.log('Added to cart')} />
+            <AppButton
+                styleTitle={styles.buttonTitle}
+                style={styles.button}
+                title="Add to cart"
+                onPress={() => console.log('Added to cart')}
+            />
         </TouchableOpacity>
     )
 }
