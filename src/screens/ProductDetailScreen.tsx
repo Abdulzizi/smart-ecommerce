@@ -9,6 +9,7 @@ import { AppColor } from '../styles/colors'
 import { Ionicons } from '@expo/vector-icons'
 import ImageViewing from "react-native-image-viewing";
 import { calculateDiscountedPrice, formatMoney, pluralize } from '../helpers/helper'
+import AppSafeView from '../components/views/AppSafeView'
 
 type ProductDetailRouteProp = RouteProp<RootStackParamList, 'ProductDetail'>
 
@@ -24,7 +25,7 @@ const ProductDetailScreen = () => {
   const oldPrice = formatMoney(product.price, "USD");
 
   return (
-    <View style={styles.container}>
+    <AppSafeView style={styles.container}>
       <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
         <Ionicons name="arrow-back" size={24} color={AppColor.text} />
       </TouchableOpacity>
@@ -44,7 +45,8 @@ const ProductDetailScreen = () => {
           visible={visible}
           onRequestClose={() => setVisible(false)}
           animationType='slide'
-/>
+          swipeToCloseEnabled
+        />
 
         <AppText variant="bold" style={styles.title}>{product.title}</AppText>
         <AppText style={styles.brand}>{product.brand}</AppText>
@@ -86,7 +88,7 @@ const ProductDetailScreen = () => {
           styleTitle={styles.buttonTitle}
         />
       </View>
-    </View>
+    </AppSafeView>
   )
 }
 
@@ -94,7 +96,7 @@ export default ProductDetailScreen
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    // flex: 1,
     backgroundColor: AppColor.white,
   },
   scroll: {
@@ -109,7 +111,7 @@ const styles = StyleSheet.create({
   },
   backButton: {
     position: 'absolute',
-    top: vs(40),
+    top: vs(10),
     left: s(12),
     zIndex: 10,
     backgroundColor: 'rgba(255,255,255,0.8)',

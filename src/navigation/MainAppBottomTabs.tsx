@@ -1,11 +1,10 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
-import ProfileScreen from "../screens/ProfileScreen";
 import { AppColor } from "../styles/colors";
 import { vs } from "react-native-size-matters";
 import HomeStack from "./HomeStack";
-import CheckoutScreen from "../screens/CheckoutScreen";
 import CheckoutStack from "./CheckoutStack";
+import ProfileStack from "./ProfileStack";
 
 const Tab = createBottomTabNavigator();
 
@@ -44,7 +43,7 @@ export default function MainAppBottomTabs() {
         >
             <Tab.Screen name="Home" component={HomeStack} />
             <Tab.Screen name="Cart" component={CheckoutStack} />
-            <Tab.Screen name="Profile" component={ProfileScreen} />
+            <Tab.Screen name="Profile" component={ProfileStack} />
         </Tab.Navigator>
     );
 }

@@ -76,3 +76,18 @@ export type TotalViewsProps = {
   orderTotal: number;
   onPress: () => void;
 };
+
+export type OrderItem = {
+  id: string;
+  name: string;
+  qty: number;
+  price: number;
+};
+
+export type Order = {
+  id: string;
+  date: string;
+  status: "Pending" | "Shipped" | "Delivered" | "Cancelled";
+  total: number;
+  items: OrderItem[];
+};
