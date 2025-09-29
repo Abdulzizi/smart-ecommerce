@@ -9,16 +9,7 @@ import { formatMoney } from '../../helpers/helper';
 import { CartItemProps } from '../../types/type';
 
 const CartItem = ({ product, qty, onIncrease, onDecrease, onDelete }: CartItemProps) => {
-    const [quantity, setQuantity] = useState(1);
-
-    const subtotal = formatMoney(product.price * quantity, "USD");
-
-    const handleIncrease = () => setQuantity((q) => q + 1);
-    const handleDecrease = () => setQuantity((q) => (q > 1 ? q - 1 : 1));
-
-    const handleDelete = () => {
-        console.log(`Delete product with id ${product.id}`);
-    };
+    const subtotal = formatMoney(product.price * qty, "USD");
 
     return (
         <View style={styles.container}>
@@ -36,18 +27,18 @@ const CartItem = ({ product, qty, onIncrease, onDecrease, onDelete }: CartItemPr
 
                 <View style={styles.bottomRow}>
                     <View style={styles.quantityControls}>
-                        <TouchableOpacity onPress={handleDecrease} style={styles.qtyBtn}>
+                        <TouchableOpacity onPress={onDecrease} style={styles.qtyBtn}>
                             <Ionicons name="remove" size={16} color={AppColor.white} />
                         </TouchableOpacity>
-                        <AppText style={styles.quantity}>{quantity}</AppText>
-                        <TouchableOpacity onPress={handleIncrease} style={styles.qtyBtn}>
+                        <AppText style={styles.quantity}>{qty}</AppText>
+                        <TouchableOpacity onPress={onIncrease} style={styles.qtyBtn}>
                             <Ionicons name="add" size={16} color={AppColor.white} />
                         </TouchableOpacity>
                     </View>
 
                     <AppText style={styles.subtotal}>{subtotal}</AppText>
 
-                    <TouchableOpacity onPress={handleDelete} style={styles.deleteBtn}>
+                    <TouchableOpacity onPress={onDelete} style={styles.deleteBtn}>
                         <Ionicons
                             name="trash-outline"
                             size={20}

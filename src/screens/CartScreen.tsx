@@ -10,6 +10,7 @@ import CartItemList from '../components/carts/CartItemList'
 import TotalViews from '../components/carts/TotalViews'
 import EmptyCarts from '../components/carts/EmptyCarts'
 import { useDispatch, useSelector } from 'react-redux'
+import { decreaseQty, increaseQty, removeItemFromCart } from '../store/reducer/CartSlice'
 
 const CartScreen = () => {
   const navigation = useNavigation<any>();
@@ -19,16 +20,15 @@ const CartScreen = () => {
 
   // console.log("cartItems", cartItems);
 
-  // hardcoded for now (later from global state)
-  // const cartItems = products.map((product : any) => ({ product, qty: 1 }));
-
   const itemsPrice = cartItems.reduce(
     (sum: number, item: any) => sum + item.product.price * item.qty,
     0
   );
 
-  const tax = 20; // hardcoded for now
-  const shipping = 15; // hardcoded for now
+  // cartItems.map((item: any) => console.log(item.qty))
+
+  const tax = 20;
+  const shipping = 15;
   const orderTotal = itemsPrice + tax + shipping;
 
   return (
@@ -40,13 +40,13 @@ const CartScreen = () => {
           <CartItemList
             items={cartItems}
             onIncrease={(id) => {
-              console.log("Increase qty for", id);
+              dispatch(increaseQty(id));
             }}
             onDecrease={(id) => {
-              console.log("Decrease qty for", id);
+              dispatch(decreaseQty(id));
             }}
             onDelete={(id) => {
-              console.log("Delete item", id);
+              dispatch(removeItemFromCart(id));
             }}
           />
 
