@@ -11,7 +11,7 @@ const EmptyCarts = () => {
     const navigation = useNavigation<any>();
 
     return (
-        <>
+        <View style={styles.container}>
             <View style={styles.textContainer}>
                 <Ionicons
                     name="cart-outline"
@@ -28,14 +28,24 @@ const EmptyCarts = () => {
                 </AppText>
             </View>
 
-            <AppButton title='Shop Now' onPress={() => navigation.navigate('Home')} style={styles.button} />
-        </>
-    )
-}
+            <AppButton
+                title="Shop Now"
+                onPress={() => navigation.navigate('Home')}
+                style={styles.button}
+            />
+        </View>
+    );
+};
 
 export default EmptyCarts;
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1, // 👈 fill the screen
+        justifyContent: 'center', // 👈 center vertically
+        alignItems: 'center', // 👈 center horizontally
+        paddingHorizontal: s(20),
+    },
     textContainer: {
         marginBottom: vs(16),
         alignItems: 'center',
@@ -49,7 +59,7 @@ const styles = StyleSheet.create({
         fontSize: s(15),
         textAlign: 'center',
         marginTop: vs(8),
-        color: AppColor.disabledGray
+        color: AppColor.disabledGray,
     },
     button: {
         borderRadius: s(8),
@@ -59,4 +69,4 @@ const styles = StyleSheet.create({
     icon: {
         marginBottom: vs(8),
     },
-})
+});

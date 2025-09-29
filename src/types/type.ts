@@ -46,6 +46,7 @@ export type AppTextInputProps = {
 
 export type ProductCardProps = Product & {
   onPress: () => void;
+  onPressCart: () => void;
 };
 
 export type RootStackParamList = {

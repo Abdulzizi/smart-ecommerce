@@ -17,7 +17,8 @@ const ProductCard: FC<ProductCardProps> = ({
     location,
     discount,
     imageURL,
-    onPress
+    onPress,
+    onPressCart
 }) => {
     const discountedPrice = calculateDiscountedPrice(price, discount);
     const finalPrice = formatMoney(discountedPrice, "USD");
@@ -58,7 +59,7 @@ const ProductCard: FC<ProductCardProps> = ({
                 styleTitle={styles.buttonTitle}
                 style={styles.button}
                 title="Add to cart"
-                onPress={() => console.log('Added to cart')}
+                onPress={onPressCart}
             />
         </TouchableOpacity>
     )

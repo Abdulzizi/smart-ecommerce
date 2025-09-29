@@ -9,17 +9,24 @@ import { products } from '../data/products'
 import CartItemList from '../components/carts/CartItemList'
 import TotalViews from '../components/carts/TotalViews'
 import EmptyCarts from '../components/carts/EmptyCarts'
+import { useDispatch, useSelector } from 'react-redux'
 
 const CartScreen = () => {
   const navigation = useNavigation<any>();
 
+  const dispatch = useDispatch();
+  const cartItems = useSelector((state: any) => state.cartSlice.items);
+
+  // console.log("cartItems", cartItems);
+
   // hardcoded for now (later from global state)
-  const cartItems = products.map((product) => ({ product, qty: 1 }));
+  // const cartItems = products.map((product : any) => ({ product, qty: 1 }));
 
   const itemsPrice = cartItems.reduce(
-    (sum, item) => sum + item.product.price * item.qty,
+    (sum: number, item: any) => sum + item.product.price * item.qty,
     0
   );
+
   const tax = 20; // hardcoded for now
   const shipping = 15; // hardcoded for now
   const orderTotal = itemsPrice + tax + shipping;

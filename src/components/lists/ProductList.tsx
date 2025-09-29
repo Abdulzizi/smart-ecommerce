@@ -5,10 +5,14 @@ import ProductCard from '../cards/ProductCard'
 import { AppColor } from '../../styles/colors'
 import { useNavigation } from '@react-navigation/native'
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs'
+import { useDispatch } from 'react-redux'
+import { addToCart } from '../../store/reducer/CartSlice'
 
 const ProductList = () => {
     const navigation = useNavigation<any>();
-    const tabBarHeight = useBottomTabBarHeight();
+    // const tabBarHeight = useBottomTabBarHeight();
+
+    const dispatch = useDispatch();
 
     return (
         <View style={styles.container}>
@@ -17,6 +21,7 @@ const ProductList = () => {
                 keyExtractor={(item) => item.id.toString()}
                 renderItem={({ item }) => (
                     <ProductCard
+                        id={item.id}
                         title={item.title}
                         price={item.price}
                         brand={item.brand}
@@ -26,6 +31,7 @@ const ProductList = () => {
                         discount={item.discount}
                         imageURL={item.imageURL}
                         onPress={() => navigation.navigate('ProductDetail', { product: item })}
+                        onPressCart={() => dispatch(addToCart(item))}
                     />
                 )}
                 numColumns={2}
