@@ -44,6 +44,7 @@ const CartScreen = () => {
           />
 
           <TotalViews
+            onPress={() => navigation.navigate("CheckoutScreen")}
             itemsPrice={itemsPrice}
             tax={tax}
             shipping={shipping}

@@ -17,6 +17,7 @@ const CartItemList = ({ items, onIncrease, onDecrease, onDelete }: CartItemListP
                     onDelete={() => onDelete(item.product.id)}
                 />
             )}
+            showsVerticalScrollIndicator={false}
         />
     )
 }

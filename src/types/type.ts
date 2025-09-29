@@ -74,4 +74,5 @@ export type TotalViewsProps = {
   tax: number;
   shipping: number;
   orderTotal: number;
+  onPress: () => void;
 };

@@ -5,8 +5,9 @@ import AppText from "../texts/AppText";
 import { AppColor } from "../../styles/colors";
 import { formatMoney } from "../../helpers/helper";
 import { TotalViewsProps } from "../../types/type";
+import AppButton from "../buttons/AppButton";
 
-const TotalViews = ({ itemsPrice = 0, tax = 0, shipping = 0, orderTotal = 0 }: TotalViewsProps) => {
+const TotalViews = ({ itemsPrice = 0, tax = 0, shipping = 0, orderTotal = 0, onPress }: TotalViewsProps) => {
     return (
         <View style={styles.container}>
             <View style={styles.row}>
@@ -31,7 +32,9 @@ const TotalViews = ({ itemsPrice = 0, tax = 0, shipping = 0, orderTotal = 0 }: T
                 <AppText style={styles.totalValue}>
                     {formatMoney(orderTotal, "USD")}
                 </AppText>
+
             </View>
+            <AppButton title="Continue" onPress={onPress} style={styles.button} />
         </View>
     );
 };
@@ -80,4 +83,11 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         color: AppColor.primary,
     },
+    button: {
+        backgroundColor: AppColor.primary,
+        paddingVertical: s(4),
+        borderRadius: s(6),
+        marginTop: s(6),
+        width: '100%',
+    }
 });
