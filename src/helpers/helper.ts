@@ -1,3 +1,5 @@
+import { CartItem } from "../types/type";
+
 export const formatMoney = (value: number, currency: string = "USD") => {
   return new Intl.NumberFormat("en-US", {
     style: "currency",
@@ -22,8 +24,15 @@ export const formatDate = (date: string | Date, locale = "en-US") => {
   });
 };
 
-export const calculateCartTotal = (items: { price: number; qty: number }[]) =>
-  items.reduce((sum, item) => sum + item.price * item.qty, 0);
+export const calculateOrderSummary = (cartItems: CartItem[]) => {
+  const subtotal = cartItems.reduce(
+    (sum, item) => sum + item.product.price * item.qty,
+    0
+  );
 
-export const calculateCartCount = (items: { qty: number }[]) =>
-  items.reduce((sum, item) => sum + item.qty, 0);
+  const tax = subtotal * 0.1;
+  const shipping = cartItems.length > 0 ? 15 : 0;
+  const orderTotal = subtotal + tax + shipping;
+
+  return { subtotal, tax, shipping, orderTotal };
+};

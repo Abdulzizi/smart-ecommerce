@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { decreaseQty, increaseQty, removeItemFromCart } from '../store/reducer/CartSlice'
 import { showMessage } from 'react-native-flash-message'
 import ConfirmModal from '../components/modals/ConfirmModal'
+import { calculateOrderSummary } from '../helpers/helper'
 
 const CartScreen = () => {
   const [confirmVisible, setConfirmVisible] = useState(false);
@@ -23,16 +24,17 @@ const CartScreen = () => {
 
   // console.log("cartItems", cartItems);
 
-  const itemsPrice = cartItems.reduce(
-    (sum: number, item: any) => sum + item.product.price * item.qty,
-    0
-  );
+  const { subtotal, tax, shipping, orderTotal } = calculateOrderSummary(cartItems); 
 
-  // cartItems.map((item: any) => console.log(item.qty))
+  // const subtotal = cartItems.reduce(
+  //   (sum: number, item: any) => sum + item.product.price * item.qty,
+  //   0
+  // );
 
-  const tax = 20;
-  const shipping = 15;
-  const orderTotal = itemsPrice + tax + shipping;
+
+  // const tax = subtotal * 0.1;
+  // const shipping = cartItems.length > 0 ? 15 : 0;
+  // const orderTotal = subtotal + tax + shipping;
 
   return (
     <AppSafeView style={styles.container}>
@@ -75,7 +77,7 @@ const CartScreen = () => {
 
           <TotalViews
             onPress={() => navigation.navigate("CheckoutScreen")}
-            itemsPrice={itemsPrice}
+            itemsPrice={subtotal}
             tax={tax}
             shipping={shipping}
             orderTotal={orderTotal}

@@ -7,9 +7,25 @@ import { CommonActions, useNavigation } from '@react-navigation/native'
 import { AppColor } from '../styles/colors'
 import { Ionicons } from '@expo/vector-icons'
 import AppText from '../components/texts/AppText'
+import { useSelector } from 'react-redux'
+import { calculateOrderSummary, formatMoney } from '../helpers/helper'
 
 const CheckoutScreen = () => {
     const navigation = useNavigation<any>();
+
+    const cartItems = useSelector((state: any) => state.cartSlice.items);
+
+    const { subtotal, tax, shipping, orderTotal } = calculateOrderSummary(cartItems);
+
+    // const subtotal = cartItems.reduce(
+    //   (sum: number, item: any) => sum + item.product.price * item.qty,
+    //   0
+    // );
+
+
+    // const tax = subtotal * 0.1;
+    // const shipping = cartItems.length > 0 ? 15 : 0;
+    // const orderTotal = subtotal + tax + shipping;
 
     return (
         <AppSafeView style={styles.container}>
@@ -35,7 +51,6 @@ const CheckoutScreen = () => {
                 <AppText style={styles.text}>Jakarta, Indonesia</AppText>
             </View>
 
-            {/* Payment Method */}
             <View style={styles.card}>
                 <View style={styles.rowBetween}>
                     <AppText style={styles.sectionTitle}>Payment Method</AppText>
@@ -50,19 +65,19 @@ const CheckoutScreen = () => {
                 <AppText style={styles.sectionTitle}>Order Summary</AppText>
                 <View style={styles.rowBetween}>
                     <AppText style={styles.text}>Items</AppText>
-                    <AppText style={styles.text}>$200</AppText>
+                    <AppText style={styles.text}>{formatMoney(subtotal, "USD")}</AppText>
                 </View>
                 <View style={styles.rowBetween}>
                     <AppText style={styles.text}>Tax</AppText>
-                    <AppText style={styles.text}>$20</AppText>
+                    <AppText style={styles.text}>{formatMoney(tax, "USD")}</AppText>
                 </View>
                 <View style={styles.rowBetween}>
                     <AppText style={styles.text}>Shipping</AppText>
-                    <AppText style={styles.text}>$15</AppText>
+                    <AppText style={styles.text}>{formatMoney(shipping, "USD")}</AppText>
                 </View>
                 <View style={styles.rowBetween}>
                     <AppText style={styles.totalLabel}>Total</AppText>
-                    <AppText style={styles.total}>$235</AppText>
+                    <AppText style={styles.total}>{formatMoney(orderTotal, "USD")}</AppText>
                 </View>
             </View>
 

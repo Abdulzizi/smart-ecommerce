@@ -10,11 +10,17 @@ import { Ionicons } from '@expo/vector-icons'
 import ImageViewing from "react-native-image-viewing";
 import { calculateDiscountedPrice, formatMoney, pluralize } from '../helpers/helper'
 import AppSafeView from '../components/views/AppSafeView'
+import { showMessage } from 'react-native-flash-message'
+import { useDispatch } from 'react-redux'
+import { addToCart } from '../store/reducer/CartSlice'
 
 type ProductDetailRouteProp = RouteProp<RootStackParamList, 'ProductDetail'>
 
 const ProductDetailScreen = () => {
   const [visible, setVisible] = useState(false);
+
+  const navuigation = useNavigation()
+  const dispatch = useDispatch()
 
   const route = useRoute<ProductDetailRouteProp>()
   const navigation = useNavigation()
@@ -83,10 +89,22 @@ const ProductDetailScreen = () => {
       <View style={styles.footer}>
         <AppButton
           title="Add to Cart"
-          onPress={() => console.log('Added to cart')}
+          onPress={() => {
+            dispatch(addToCart(product));
+
+            showMessage({
+              message: `${product.title} added to cart`,
+              type: 'success',
+              icon: 'success',
+              duration: 2000,
+              floating: true,
+              style: { marginTop: s(25) }
+            });
+          }}
           style={styles.button}
           styleTitle={styles.buttonTitle}
         />
+
       </View>
     </AppSafeView>
   )

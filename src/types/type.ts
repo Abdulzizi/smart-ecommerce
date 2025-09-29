@@ -92,3 +92,8 @@ export type Order = {
   total: number;
   items: OrderItem[];
 };
+
+export type CartItem = {
+  product: { price: number };
+  qty: number;
+};
