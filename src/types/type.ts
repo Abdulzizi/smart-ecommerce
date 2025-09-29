@@ -1,7 +1,7 @@
 import { StyleProp, TextProps, TextStyle, ViewStyle } from "react-native";
 
 export type Product = {
-  id: string;
+  id: string | number;
   title: string;
   price: number;
   brand: string;
@@ -63,11 +63,15 @@ export type CartItemProps = {
 };
 
 export type CartItemListProps = {
-  items: {
-    product: Product;
-    qty: number;
-  }[];
-  onIncrease: (id: string) => void;
-  onDecrease: (id: string) => void;
-  onDelete: (id: string) => void;
+  items: { product: Product; qty: number }[];
+  onIncrease: (id: string | number) => void;
+  onDecrease: (id: string | number) => void;
+  onDelete: (id: string | number) => void;
+};
+
+export type TotalViewsProps = {
+  itemsPrice: number;
+  tax: number;
+  shipping: number;
+  orderTotal: number;
 };

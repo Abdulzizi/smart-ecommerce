@@ -20,7 +20,7 @@ export default function MainAppBottomTabs() {
                     borderTopColor: AppColor.borderColor,
                     borderTopWidth: 1,
                     // height: vs(85),
-                    // paddingBottom: vs(6),
+                    paddingBottom: vs(6),
                     paddingTop: vs(6),
                 },
                 tabBarActiveTintColor: AppColor.primary,

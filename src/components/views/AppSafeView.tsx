@@ -7,7 +7,7 @@ import { SafeViewProps } from '../../types/type'
 
 const AppSafeView: FC<SafeViewProps> = ({ children, style }) => {
     return (
-        <SafeAreaView style={styles.safeArea}>
+        <SafeAreaView edges={['top']} style={styles.safeArea}>
             <View style={[styles.container, style]}>
                 {children}
             </View>
@@ -20,6 +20,7 @@ export default AppSafeView
 const styles = StyleSheet.create({
     safeArea: {
         flex: 1,
+        // height: '100%',
         backgroundColor: AppColor.background,
         // paddingTop: IS_ANDROID ? StatusBar.currentHeight : 0,
     },

@@ -7,7 +7,7 @@ import AppButton from '../buttons/AppButton'
 import AppText from '../texts/AppText'
 import { AppColor } from '../../styles/colors'
 
-const EmptyCart = () => {
+const EmptyCarts = () => {
     const navigation = useNavigation<any>();
 
     return (
@@ -33,7 +33,7 @@ const EmptyCart = () => {
     )
 }
 
-export default EmptyCart;
+export default EmptyCarts;
 
 const styles = StyleSheet.create({
     textContainer: {
