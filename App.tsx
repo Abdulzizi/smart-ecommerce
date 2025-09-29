@@ -1,4 +1,4 @@
-import { ActivityIndicator, StyleSheet } from 'react-native';
+import { ActivityIndicator, Platform, StatusBar, StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import MainAppStack from './src/navigation/MainAppStack';
 import { useFonts } from 'expo-font';
@@ -18,7 +18,12 @@ export default function App() {
   return (
     <Provider store={store}>
       <NavigationContainer>
-        <FlashMessage position="top" />
+        <FlashMessage
+          position="top"
+          style={{
+            marginTop: Platform.OS === "android" ? StatusBar.currentHeight : 40, // push down a bit
+          }}
+        />
         <MainAppStack />
       </NavigationContainer>
     </Provider>

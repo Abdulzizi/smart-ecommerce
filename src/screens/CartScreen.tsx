@@ -1,18 +1,21 @@
-import { Dimensions, StyleSheet, View } from 'react-native'
-import React from 'react'
+import { StyleSheet } from 'react-native'
+import React, { useState } from 'react'
 import AppSafeView from '../components/views/AppSafeView'
 import { s } from 'react-native-size-matters'
 import { useNavigation } from '@react-navigation/native'
-import AppButton from '../components/buttons/AppButton'
 
-import { products } from '../data/products'
 import CartItemList from '../components/carts/CartItemList'
 import TotalViews from '../components/carts/TotalViews'
 import EmptyCarts from '../components/carts/EmptyCarts'
 import { useDispatch, useSelector } from 'react-redux'
 import { decreaseQty, increaseQty, removeItemFromCart } from '../store/reducer/CartSlice'
+import { showMessage } from 'react-native-flash-message'
+import ConfirmModal from '../components/modals/ConfirmModal'
 
 const CartScreen = () => {
+  const [confirmVisible, setConfirmVisible] = useState(false);
+  const [selectedId, setSelectedId] = useState<number | string | null>(null);
+
   const navigation = useNavigation<any>();
 
   const dispatch = useDispatch();
@@ -46,9 +49,29 @@ const CartScreen = () => {
               dispatch(decreaseQty(id));
             }}
             onDelete={(id) => {
-              dispatch(removeItemFromCart(id));
+              setSelectedId(id);
+              setConfirmVisible(true);
             }}
           />
+
+            <ConfirmModal
+              visible={confirmVisible}
+              message="Are you sure you want to remove this item from your cart?"
+              onCancel={() => setConfirmVisible(false)}
+              onConfirm={() => {
+                if (selectedId !== null) {
+                  dispatch(removeItemFromCart(selectedId));
+                  showMessage({
+                    message: "Item removed from cart",
+                    type: "danger",
+                    duration: 2000,
+                    icon: "auto",
+                    style: {marginTop: s(25)}
+                  });
+                }
+                setConfirmVisible(false);
+              }}
+            />
 
           <TotalViews
             onPress={() => navigation.navigate("CheckoutScreen")}
