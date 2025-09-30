@@ -24,17 +24,10 @@ const CartScreen = () => {
 
   // console.log("cartItems", cartItems);
 
-  const { subtotal, tax, shipping, orderTotal } = calculateOrderSummary(cartItems); 
+  const { itemsPrice, discount, tax, shipping, orderTotal } = calculateOrderSummary(cartItems);
 
-  // const subtotal = cartItems.reduce(
-  //   (sum: number, item: any) => sum + item.product.price * item.qty,
-  //   0
-  // );
-
-
-  // const tax = subtotal * 0.1;
-  // const shipping = cartItems.length > 0 ? 15 : 0;
-  // const orderTotal = subtotal + tax + shipping;
+  console.log(itemsPrice, orderTotal);
+  
 
   return (
     <AppSafeView style={styles.container}>
@@ -77,8 +70,9 @@ const CartScreen = () => {
 
           <TotalViews
             onPress={() => navigation.navigate("CheckoutScreen")}
-            itemsPrice={subtotal}
+            itemsPrice={itemsPrice}
             tax={tax}
+            discount={discount}
             shipping={shipping}
             orderTotal={orderTotal}
           />
