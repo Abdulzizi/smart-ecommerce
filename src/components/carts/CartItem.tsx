@@ -5,11 +5,14 @@ import { Ionicons } from '@expo/vector-icons';
 import AppText from '../texts/AppText';
 import { AppColor } from '../../styles/colors';
 
-import { formatMoney } from '../../helpers/helper';
+import { calculateDiscountedPrice, formatMoney } from '../../helpers/helper';
 import { CartItemProps } from '../../types/type';
 
 const CartItem = ({ product, qty, onIncrease, onDecrease, onDelete }: CartItemProps) => {
-    const subtotal = formatMoney(product.price * qty, "USD");
+    const hasDiscount = product.discount > 0;
+    const discountedPrice = calculateDiscountedPrice(product.price, product.discount);
+
+    const subtotal = formatMoney(discountedPrice * qty, "USD");
 
     return (
         <View style={styles.container}>
@@ -20,10 +23,32 @@ const CartItem = ({ product, qty, onIncrease, onDecrease, onDelete }: CartItemPr
                     {product.title}
                 </AppText>
                 <AppText style={styles.brand}>{product.brand}</AppText>
-                <AppText style={styles.price}>{formatMoney(product.price, "USD")}</AppText>
+                {/* <AppText style={styles.price}>{formatMoney(product.price, "USD")}</AppText>
                 {product.discount > 0 && (
                     <AppText style={styles.discount}>Save {product.discount}%</AppText>
+                )} */}
+
+                <View style={styles.priceRow}>
+                    {hasDiscount ? (
+                        <>
+                            <AppText style={styles.oldPrice}>
+                                {formatMoney(product.price, "USD")}
+                            </AppText>
+                            <AppText style={styles.newPrice}>
+                                {formatMoney(discountedPrice, "USD")}
+                            </AppText>
+                        </>
+                    ) : (
+                        <AppText style={styles.newPrice}>
+                            {formatMoney(product.price, "USD")}
+                        </AppText>
+                    )}
+                </View>
+
+                {hasDiscount && (
+                    <AppText style={styles.discountTag}>Save {product.discount}%</AppText>
                 )}
+
 
                 <View style={styles.bottomRow}>
                     <View style={styles.quantityControls}>
@@ -128,5 +153,31 @@ const styles = StyleSheet.create({
     deleteBtn: {
         padding: s(6),
         marginLeft: s(8),
+    },
+    priceRow: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginBottom: vs(4),
+    },
+    oldPrice: {
+        fontSize: s(13),
+        color: AppColor.disabledGray,
+        textDecorationLine: 'line-through', // 🔑 slash effect
+        marginRight: s(8),
+    },
+    newPrice: {
+        fontSize: s(14),
+        color: AppColor.primary,
+        fontWeight: 'bold',
+    },
+    discountTag: {
+        backgroundColor: AppColor.red,
+        color: AppColor.white,
+        fontSize: s(12),
+        paddingHorizontal: s(6),
+        paddingVertical: vs(2),
+        borderRadius: s(6),
+        alignSelf: 'flex-start',
+        marginTop: vs(4),
     },
 });

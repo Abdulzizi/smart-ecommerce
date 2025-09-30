@@ -24,15 +24,30 @@ export const formatDate = (date: string | Date, locale = "en-US") => {
   });
 };
 
-export const calculateOrderSummary = (cartItems: CartItem[]) => {
-  const subtotal = cartItems.reduce(
-    (sum, item) => sum + item.product.price * item.qty,
-    0
-  );
+export const calculateOrderSummary = (cartItems: any[]) => {
+  let originalTotal = 0;
+  let discountedTotal = 0;
 
-  const tax = subtotal * 0.1;
+  cartItems.forEach((item) => {
+    const price = item.product.price;
+    const discount = item.product.discount ?? 0;
+    const discountedPrice = price - (price * discount) / 100;
+
+    originalTotal += price * item.qty;
+    discountedTotal += discountedPrice * item.qty;
+  });
+
+  const discount = originalTotal - discountedTotal;
+  const tax = discountedTotal * 0.1;
   const shipping = cartItems.length > 0 ? 15 : 0;
-  const orderTotal = subtotal + tax + shipping;
+  const orderTotal = discountedTotal + tax + shipping;
 
-  return { subtotal, tax, shipping, orderTotal };
+  return {
+    itemsPrice: originalTotal,
+    discount, // the difference only
+    tax,
+    shipping,
+    orderTotal, // this is already the final after discount
+    discountedTotal, // add this if you want pre-tax/shipping price
+  };
 };

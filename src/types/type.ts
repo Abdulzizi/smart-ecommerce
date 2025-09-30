@@ -73,6 +73,7 @@ export type CartItemListProps = {
 export type TotalViewsProps = {
   itemsPrice: number;
   tax: number;
+  discount?: number;
   shipping: number;
   orderTotal: number;
   onPress: () => void;
