@@ -9,23 +9,17 @@ import { Ionicons } from '@expo/vector-icons'
 import AppText from '../components/texts/AppText'
 import { useSelector } from 'react-redux'
 import { calculateOrderSummary, formatMoney } from '../helpers/helper'
+import { useDispatch } from "react-redux";
+import { emptyCart } from '../store/reducer/CartSlice'
 
 const CheckoutScreen = () => {
     const navigation = useNavigation<any>();
 
     const cartItems = useSelector((state: any) => state.cartSlice.items);
 
-    const { subtotal, tax, shipping, orderTotal } = calculateOrderSummary(cartItems);
+    const { itemsPrice, discount, tax, shipping, orderTotal } = calculateOrderSummary(cartItems);
 
-    // const subtotal = cartItems.reduce(
-    //   (sum: number, item: any) => sum + item.product.price * item.qty,
-    //   0
-    // );
-
-
-    // const tax = subtotal * 0.1;
-    // const shipping = cartItems.length > 0 ? 15 : 0;
-    // const orderTotal = subtotal + tax + shipping;
+    const dispatch = useDispatch();
 
     return (
         <AppSafeView style={styles.container}>
@@ -65,8 +59,18 @@ const CheckoutScreen = () => {
                 <AppText style={styles.sectionTitle}>Order Summary</AppText>
                 <View style={styles.rowBetween}>
                     <AppText style={styles.text}>Items</AppText>
-                    <AppText style={styles.text}>{formatMoney(subtotal, "USD")}</AppText>
+                    <AppText style={styles.text}>{formatMoney(itemsPrice, "USD")}</AppText>
                 </View>
+
+                {discount > 0 && (
+                    <View style={styles.row}>
+                        <AppText style={styles.label}>Discount</AppText>
+                        <AppText style={[styles.value, { color: "red" }]}>
+                            -{formatMoney(discount, "USD")}
+                        </AppText>
+                    </View>
+                )}
+
                 <View style={styles.rowBetween}>
                     <AppText style={styles.text}>Tax</AppText>
                     <AppText style={styles.text}>{formatMoney(tax, "USD")}</AppText>
@@ -85,15 +89,18 @@ const CheckoutScreen = () => {
                 title="Place Order"
                 onPress={() => {
                     console.log("Order placed!");
+                    dispatch(emptyCart());
+
                     navigation.dispatch(
                         CommonActions.reset({
                             index: 0,
-                            routes: [{ name: "CartScreen" }], // reset to CartScreen
+                            routes: [{ name: "CartScreen" }],
                         })
                     );
                 }}
                 style={styles.placeOrderBtn}
             />
+
         </AppSafeView>
     )
 }
@@ -166,8 +173,23 @@ const styles = StyleSheet.create({
         color: AppColor.primary,
     },
     placeOrderBtn: {
-        marginTop: vs(20),
+        marginTop: vs(15),
         width: "100%",
+        padding: s(16),
         borderRadius: s(8),
+    },
+    row: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        marginBottom: vs(8),
+    },
+    label: {
+        fontSize: s(14),
+        color: AppColor.black,
+    },
+    value: {
+        fontSize: s(14),
+        fontWeight: "600",
+        color: AppColor.black,
     },
 })
