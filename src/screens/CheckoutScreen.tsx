@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
-import React from 'react'
+import { useState } from 'react'
 import AppSafeView from '../components/views/AppSafeView'
 import AppButton from '../components/buttons/AppButton'
 import { s, vs } from 'react-native-size-matters'
@@ -11,15 +11,20 @@ import { useSelector } from 'react-redux'
 import { calculateOrderSummary, formatMoney } from '../helpers/helper'
 import { useDispatch } from "react-redux";
 import { emptyCart } from '../store/reducer/CartSlice'
+import AppModal from '../components/modals/AppModal'
 
 const CheckoutScreen = () => {
-    const navigation = useNavigation<any>();
+    const [addressModalVisible, setAddressModalVisible] = useState(false);
+    const [paymentModalVisible, setPaymentModalVisible] = useState(false);
 
+    const addresses = useSelector((state: any) => state.addressSlice.addresses);
+    const defaultAddress = addresses.find((a: any) => a.isDefault);
+
+    const navigation = useNavigation<any>();
     const cartItems = useSelector((state: any) => state.cartSlice.items);
+    const dispatch = useDispatch();
 
     const { itemsPrice, discount, tax, shipping, orderTotal } = calculateOrderSummary(cartItems);
-
-    const dispatch = useDispatch();
 
     return (
         <AppSafeView style={styles.container}>
@@ -37,23 +42,50 @@ const CheckoutScreen = () => {
             <View style={styles.card}>
                 <View style={styles.rowBetween}>
                     <AppText style={styles.sectionTitle}>Shipping Address</AppText>
-                    <TouchableOpacity onPress={() => console.log("Change address")}>
+                    <TouchableOpacity onPress={() => setAddressModalVisible(true)}>
                         <AppText style={styles.link}>Change</AppText>
                     </TouchableOpacity>
                 </View>
-                <AppText style={styles.text}>123 Main Street</AppText>
-                <AppText style={styles.text}>Jakarta, Indonesia</AppText>
+                <AppText style={styles.text}>
+                    {defaultAddress ? `${defaultAddress.street}, ${defaultAddress.city}` : "No Address Set"}
+                </AppText>
             </View>
+
+            <AppModal
+                visible={addressModalVisible}
+                onClose={() => setAddressModalVisible(false)}
+                title="Select Shipping Address"
+            >
+                <TouchableOpacity onPress={() => console.log("Use Address 1")}>
+                    <Text style={{ marginBottom: 10 }}>123 Main Street, Jakarta</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => console.log("Use Address 2")}>
+                    <Text style={{ marginBottom: 10 }}>Jl. Sudirman No. 45</Text>
+                </TouchableOpacity>
+            </AppModal>
 
             <View style={styles.card}>
                 <View style={styles.rowBetween}>
                     <AppText style={styles.sectionTitle}>Payment Method</AppText>
-                    <TouchableOpacity onPress={() => console.log("Change payment")}>
+                    <TouchableOpacity onPress={() => setPaymentModalVisible(true)}>
                         <AppText style={styles.link}>Change</AppText>
                     </TouchableOpacity>
                 </View>
                 <AppText style={styles.text}>Visa **** 4242</AppText>
             </View>
+
+            <AppModal
+                visible={paymentModalVisible}
+                onClose={() => setPaymentModalVisible(false)}
+                title="Select Payment Method"
+            >
+                <TouchableOpacity onPress={() => console.log("Use Payment 1")}>
+                    <Text style={{ marginBottom: 10 }}>Paypal **** 4242</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => console.log("Use Payment 2")}>
+                    <Text style={{ marginBottom: 10 }}>Visa **** 4242</Text>
+                </TouchableOpacity>
+            </AppModal>
 
             <View style={styles.card}>
                 <AppText style={styles.sectionTitle}>Order Summary</AppText>

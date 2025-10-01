@@ -28,12 +28,28 @@ const ProfileScreen = () => {
         <AppText style={styles.menuText}>My Orders</AppText>
       </TouchableOpacity>
 
-      <TouchableOpacity
+      {/* <TouchableOpacity
         style={styles.menuItem}
         onPress={() => console.log("Navigate to Settings")}
       >
         <Ionicons name="settings-outline" size={22} color={AppColor.text} />
         <AppText style={styles.menuText}>Settings</AppText>
+      </TouchableOpacity> */}
+
+      <TouchableOpacity
+        style={styles.menuItem}
+        onPress={() => navigation.navigate("AddressScreen")}
+      >
+        <Ionicons name="location-outline" size={22} color={AppColor.text} />
+        <AppText style={styles.menuText}>My Addresses</AppText>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={styles.menuItem}
+        onPress={() => navigation.navigate("PaymentScreen")}
+      >
+        <Ionicons name="card-outline" size={22} color={AppColor.text} />
+        <AppText style={styles.menuText}>My Payment Methods</AppText>
       </TouchableOpacity>
 
       <TouchableOpacity
