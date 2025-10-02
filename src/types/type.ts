@@ -109,3 +109,4 @@ export type CartItem = {
   product: { price: number };
   qty: number;
 };
+

@@ -20,16 +20,23 @@ import ConfirmModal from "../components/modals/ConfirmModal";
 import { showMessage } from "react-native-flash-message";
 import { Address, RootStackParamList } from "../types/type";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { useDispatch } from "react-redux";
+import { addAddress, deleteAddress, setDefaultAddress, updateAddress } from "../store/reducer/addressSlice";
 
 type AddressFormScreenRouteProp = RouteProp<RootStackParamList, "AddressFormScreen">;
 type AddressFormScreenNavProp = NativeStackNavigationProp<RootStackParamList, "AddressFormScreen">;
 
 export default function AddressFormScreen() {
+    const [confirmDefaultVisible, setConfirmDefaultVisible] = useState(false);
+    const [pendingDefaultValue, setPendingDefaultValue] = useState(false);
+
+    const dispatch = useDispatch();
+
     const navigation = useNavigation<AddressFormScreenNavProp>();
     const route = useRoute<AddressFormScreenRouteProp>();
     const editingAddress: Address | undefined = route.params?.address;
 
-    // console.log(editingAddress);
+    console.log("Address pass from edit", editingAddress);
 
     const [modalVisible, setModalVisible] = useState(false);
 
@@ -38,24 +45,37 @@ export default function AddressFormScreen() {
     );
 
     const handleSave = () => {
+        const newId = Math.random().toString(36).substring(2, 10) + Math.random().toString(36).substring(2, 10);
         if (!form.name || !form.street || !form.city || !form.zip || !form.phone) {
             Alert.alert("Missing Fields", "Please fill in all fields before saving.");
             return;
         }
 
         if (editingAddress) {
-            console.log("update", form);
+            // Update existing address
+            dispatch(updateAddress({ ...form, id: editingAddress.id }));
+            if (form.isDefault) {
+                dispatch(setDefaultAddress(editingAddress.id));
+            }
             showMessage({ message: "Address updated", type: "success" });
         } else {
-            console.log("add new", form);
+            // Add new address
+            const newAddress = { ...form, id: newId };
+            dispatch(addAddress(newAddress));
+            if (form.isDefault) {
+                dispatch(setDefaultAddress(newAddress.id));
+            }
             showMessage({ message: "Address added", type: "success" });
         }
-        // navigation.goBack();
+
+        navigation.goBack();
     };
+
 
     const handleDeleteConfirm = () => {
         if (!editingAddress) return;
-        console.log("delete", editingAddress.id);
+
+        dispatch(deleteAddress(editingAddress.id));
         setModalVisible(false);
         navigation.goBack();
 
@@ -67,7 +87,6 @@ export default function AddressFormScreen() {
             duration: 3000,
         });
     };
-
 
     return (
         <AppSafeView>
@@ -162,11 +181,36 @@ export default function AddressFormScreen() {
                         <AppText style={styles.switchLabel}>Set as Default</AppText>
                         <Switch
                             value={form.isDefault || false}
-                            onValueChange={(val) => setForm({ ...form, isDefault: val })}
+                            onValueChange={(val) => {
+                                if (val) {
+                                    setPendingDefaultValue(val);
+                                    setConfirmDefaultVisible(true);
+                                } else {
+                                    setForm({ ...form, isDefault: false });
+                                }
+                            }}
                             trackColor={{ false: "#ccc", true: AppColor.primary }}
                             thumbColor={form.isDefault ? "#fff" : "#f4f3f4"}
                         />
                     </View>
+
+                    {/* Confirmation Modal */}
+
+                    <ConfirmModal
+                        visible={confirmDefaultVisible}
+                        title="Set as Default"
+                        message="Are you sure you want to set this address as your default?"
+                        onCancel={() => {
+                            setConfirmDefaultVisible(false);
+                            // reset switch back to false
+                            setForm({ ...form, isDefault: false });
+                        }}
+                        onConfirm={() => {
+                            setConfirmDefaultVisible(false);
+                            setForm({ ...form, isDefault: pendingDefaultValue });
+                            showMessage({ message: "Address set as default", type: "success" });
+                        }}
+                    />
 
                 </ScrollView>
             </KeyboardAvoidingView>

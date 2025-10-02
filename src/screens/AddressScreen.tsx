@@ -4,48 +4,22 @@ import AppSafeView from '../components/views/AppSafeView'
 import AppText from '../components/texts/AppText'
 import { RouteProp, useNavigation } from '@react-navigation/native'
 import AppButton from '../components/buttons/AppButton'
-import { RootStackParamList } from '../types/type'
+import { Address, RootStackParamList } from '../types/type'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { s, vs } from 'react-native-size-matters'
 import { AppColor } from '../styles/colors'
 import { Ionicons } from '@expo/vector-icons'
+import {  useSelector } from 'react-redux'
+import { RootState } from '../store/store'
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList, "AddressFormScreen">;
 
-type Address = {
-    id: string
-    name: string
-    street: string
-    city: string
-    zip: string
-    phone: string
-    isDefault?: boolean
-}
-
-const dummyAddresses: Address[] = [
-    {
-        id: '1',
-        name: 'John Doe',
-        street: 'Jl. Sudirman No. 21',
-        city: 'Jakarta',
-        zip: '12345',
-        phone: '08123456789',
-        isDefault: true,
-    },
-    {
-        id: '2',
-        name: 'Jane Doe',
-        street: 'Jl. Merdeka No. 5',
-        city: 'Bandung',
-        zip: '40234',
-        phone: '08234567890',
-    },
-]
-
 const AddressScreen = () => {
-    const addresses = dummyAddresses // later replace with state or API
-
     const navigation = useNavigation<NavigationProp>();
+
+    const addresses = useSelector((state: RootState) => state.addressSlice.addresses);
+
+    console.log("Addresses from state : ", addresses);
 
     const renderAddress = ({ item }: { item: Address }) => (
         <TouchableOpacity style={styles.card} onPress={() => { navigation.navigate('AddressFormScreen', { address: item }) }}>
@@ -85,9 +59,9 @@ const AddressScreen = () => {
                 ) : (
                     <View style={styles.emptyContainer}>
                         <Text style={styles.emptyText}>No addresses added yet</Text>
-                        <TouchableOpacity style={styles.addButton}>
+                        {/* <TouchableOpacity style={styles.addButton}>
                             <Text style={styles.addButtonText}>+ Add New Address</Text>
-                        </TouchableOpacity>
+                        </TouchableOpacity> */}
                     </View>
                 )}
 
@@ -106,7 +80,7 @@ export default AddressScreen
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        padding: 16,
+        padding: s(16),
         backgroundColor: '#fff',
     },
     header: {
@@ -120,41 +94,41 @@ const styles = StyleSheet.create({
         padding: s(4),
     },
     title: {
-        fontSize: 22,
+        fontSize: s(22),
         fontWeight: 'bold',
         textAlign: "center",
         color: AppColor.text,
     },
     list: {
-        gap: 12,
+        gap: s(12),
     },
     card: {
         backgroundColor: '#f2f2f2',
-        padding: 16,
-        borderRadius: 8,
+        padding: s(16),
+        borderRadius: s(8),
     },
     cardHeader: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        marginBottom: 8,
+        marginBottom: vs(8),
     },
     name: {
         fontWeight: 'bold',
-        fontSize: 16,
+        fontSize: s(16),
     },
     defaultBadge: {
         backgroundColor: '#00b894',
         color: '#fff',
-        fontSize: 12,
-        paddingHorizontal: 8,
-        paddingVertical: 4,
-        borderRadius: 6,
+        fontSize: s(12),
+        paddingHorizontal: s(8),
+        paddingVertical: vs(4),
+        borderRadius: s(6),
     },
     detail: {
-        fontSize: 14,
+        fontSize: s(14),
         color: '#555',
-        marginBottom: 2,
+        marginBottom: vs(2),
     },
     emptyContainer: {
         flex: 1,
@@ -162,15 +136,15 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     emptyText: {
-        fontSize: 16,
-        marginBottom: 12,
-        color: '#666',
+        fontSize: s(16),
+        marginBottom: vs(12),
+        color: AppColor.disabledGray,
     },
     addButton: {
         backgroundColor: '#00b894',
-        paddingHorizontal: 20,
-        paddingVertical: 12,
-        borderRadius: 8,
+        paddingHorizontal: s(20),
+        paddingVertical: vs(12),
+        borderRadius: s(8),
         width: '100%',
     },
     addButtonText: {
@@ -178,8 +152,8 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
     separator: {
-        height: 1,
+        height: vs(1),
         backgroundColor: '#ccc',
-        marginBottom: 16,
+        marginBottom: vs(16),
     },
 })
