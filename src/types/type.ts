@@ -12,6 +12,16 @@ export type Product = {
   imageURL: string;
 };
 
+export type Address = {
+  id: string;
+  name: string;
+  street: string;
+  city: string;
+  zip: string;
+  phone: string;
+  isDefault?: boolean;
+};
+
 // COMPONENT
 export type AppTextProps = TextProps & {
   children: React.ReactNode;
@@ -53,6 +63,7 @@ export type RootStackParamList = {
   AuthStack: undefined;
   MainAppBottomTabs: undefined;
   ProductDetail: { item: object };
+  AddressFormScreen: { address?: Address } | undefined;
 };
 
 export type CartItemProps = {

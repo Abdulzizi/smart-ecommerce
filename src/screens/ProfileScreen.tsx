@@ -38,7 +38,7 @@ const ProfileScreen = () => {
 
       <TouchableOpacity
         style={styles.menuItem}
-        onPress={() => navigation.navigate("AddressScreen")}
+        onPress={() => navigation.navigate("AddressStack")}
       >
         <Ionicons name="location-outline" size={22} color={AppColor.text} />
         <AppText style={styles.menuText}>My Addresses</AppText>

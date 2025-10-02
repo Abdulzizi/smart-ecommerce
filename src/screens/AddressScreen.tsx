@@ -2,8 +2,12 @@ import { FlatList, StyleSheet, Text, View, TouchableOpacity } from 'react-native
 import React from 'react'
 import AppSafeView from '../components/views/AppSafeView'
 import AppText from '../components/texts/AppText'
-import { useNavigation } from '@react-navigation/native'
+import { RouteProp, useNavigation } from '@react-navigation/native'
 import AppButton from '../components/buttons/AppButton'
+import { RootStackParamList } from '../types/type'
+import { NativeStackNavigationProp } from '@react-navigation/native-stack'
+
+type NavigationProp = NativeStackNavigationProp<RootStackParamList, "AddressFormScreen">;
 
 type Address = {
     id: string
@@ -38,7 +42,7 @@ const dummyAddresses: Address[] = [
 const AddressScreen = () => {
     const addresses = dummyAddresses // later replace with state or API
 
-    const navigation = useNavigation();
+    const navigation = useNavigation<NavigationProp>();
 
     const renderAddress = ({ item }: { item: Address }) => (
         <TouchableOpacity style={styles.card} onPress={() => { navigation.navigate('AddressFormScreen', { address: item }) }}>

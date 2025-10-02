@@ -1,4 +1,4 @@
-import { useRoute } from "@react-navigation/native";
+import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { useState } from "react";
 import {
     StyleSheet,
@@ -18,10 +18,18 @@ import { Ionicons } from "@expo/vector-icons";
 import { AppColor } from "../styles/colors";
 import ConfirmModal from "../components/modals/ConfirmModal";
 import { showMessage } from "react-native-flash-message";
+import { Address, RootStackParamList } from "../types/type";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
-export default function AddressFormScreen({ navigation }) {
-    const route = useRoute();
-    const editingAddress = route.params?.address;
+type AddressFormScreenRouteProp = RouteProp<RootStackParamList, "AddressFormScreen">;
+type AddressFormScreenNavProp = NativeStackNavigationProp<RootStackParamList, "AddressFormScreen">;
+
+export default function AddressFormScreen() {
+    const navigation = useNavigation<AddressFormScreenNavProp>();
+    const route = useRoute<AddressFormScreenRouteProp>();
+    const editingAddress: Address | undefined = route.params?.address;
+
+    console.log(editingAddress);
 
     const [modalVisible, setModalVisible] = useState(false);
 
@@ -46,6 +54,7 @@ export default function AddressFormScreen({ navigation }) {
     };
 
     const handleDeleteConfirm = () => {
+        if (!editingAddress) return;
         console.log("delete", editingAddress.id);
         setModalVisible(false);
         navigation.goBack();
@@ -58,6 +67,7 @@ export default function AddressFormScreen({ navigation }) {
             duration: 3000,
         });
     };
+
 
     return (
         <AppSafeView>
