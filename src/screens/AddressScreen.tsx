@@ -6,6 +6,9 @@ import { RouteProp, useNavigation } from '@react-navigation/native'
 import AppButton from '../components/buttons/AppButton'
 import { RootStackParamList } from '../types/type'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
+import { s, vs } from 'react-native-size-matters'
+import { AppColor } from '../styles/colors'
+import { Ionicons } from '@expo/vector-icons'
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList, "AddressFormScreen">;
 
@@ -61,8 +64,17 @@ const AddressScreen = () => {
     return (
         <AppSafeView>
             <View style={styles.container}>
-                <AppText style={styles.title}>Addresses</AppText>
-                <View style={styles.separator} />
+                <View style={styles.header}>
+                    <TouchableOpacity
+                        onPress={() => navigation.goBack()}
+                        style={styles.backBtn}
+                    >
+                        <Ionicons name="arrow-back" size={24} color={AppColor.text} />
+                    </TouchableOpacity>
+                    <AppText style={styles.title}>Addresses</AppText>
+                    <View style={{ width: 24 }} />
+                </View>
+                {/* <View style={styles.separator} /> */}
                 {addresses.length > 0 ? (
                     <FlatList
                         data={addresses}
@@ -96,6 +108,22 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: 16,
         backgroundColor: '#fff',
+    },
+    header: {
+        flexDirection: "row",
+        // alignItems: "flex-start",
+        gap: s(8),
+        // justifyContent: "space-between",
+        marginBottom: vs(20),
+    },
+    backBtn: {
+        padding: s(4),
+    },
+    title: {
+        fontSize: 22,
+        fontWeight: 'bold',
+        textAlign: "center",
+        color: AppColor.text,
     },
     list: {
         gap: 12,
@@ -148,12 +176,6 @@ const styles = StyleSheet.create({
     addButtonText: {
         color: '#fff',
         fontWeight: 'bold',
-    },
-    title: {
-        fontSize: 24,
-        fontWeight: 'bold',
-        marginBottom: 16,
-        color: '#333',
     },
     separator: {
         height: 1,

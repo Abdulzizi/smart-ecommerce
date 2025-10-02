@@ -29,7 +29,7 @@ export default function AddressFormScreen() {
     const route = useRoute<AddressFormScreenRouteProp>();
     const editingAddress: Address | undefined = route.params?.address;
 
-    console.log(editingAddress);
+    // console.log(editingAddress);
 
     const [modalVisible, setModalVisible] = useState(false);
 
@@ -50,7 +50,7 @@ export default function AddressFormScreen() {
             console.log("add new", form);
             showMessage({ message: "Address added", type: "success" });
         }
-        navigation.goBack();
+        // navigation.goBack();
     };
 
     const handleDeleteConfirm = () => {
@@ -145,13 +145,29 @@ export default function AddressFormScreen() {
                         />
                     </View>
 
-                    <View style={[styles.field, styles.switchRow]}>
+                    {/* <View style={[styles.field, styles.switchRow]}>
                         <AppText style={styles.label}>Set as Default</AppText>
                         <Switch
                             value={form.isDefault || false}
                             onValueChange={(val) => setForm({ ...form, isDefault: val })}
                         />
+                    </View> */}
+
+                    <View style={styles.switchContainer}>
+                        <Ionicons
+                            name={form.isDefault ? "star" : "star-outline"}
+                            size={20}
+                            color={form.isDefault ? AppColor.primary : "#999"}
+                        />
+                        <AppText style={styles.switchLabel}>Set as Default</AppText>
+                        <Switch
+                            value={form.isDefault || false}
+                            onValueChange={(val) => setForm({ ...form, isDefault: val })}
+                            trackColor={{ false: "#ccc", true: AppColor.primary }}
+                            thumbColor={form.isDefault ? "#fff" : "#f4f3f4"}
+                        />
                     </View>
+
                 </ScrollView>
             </KeyboardAvoidingView>
 
@@ -243,4 +259,22 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: "red",
     },
+    switchContainer: {
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-between",
+        padding: 12,
+        borderWidth: 1,
+        borderColor: "#eee",
+        borderRadius: 8,
+        marginBottom: 20,
+    },
+    switchLabel: {
+        fontSize: 14,
+        fontWeight: "500",
+        color: "#333",
+        flex: 1,
+        marginLeft: 8,
+    },
+
 });
