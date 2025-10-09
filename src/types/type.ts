@@ -22,6 +22,15 @@ export type Address = {
   isDefault?: boolean;
 };
 
+export type PaymentMethod = {
+  id: string;
+  name: string;
+  accountNumber: string;
+  ownerName: string;
+  type: "bank" | "e-wallet" | "credit-card";
+  isDefault?: boolean;
+};
+
 // COMPONENT
 export type AppTextProps = TextProps & {
   children: React.ReactNode;
