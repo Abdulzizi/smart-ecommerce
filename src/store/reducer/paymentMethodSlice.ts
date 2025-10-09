@@ -12,7 +12,7 @@ const initialState: PaymentMethodState = {
             id: "1",
             name: "GoPay",
             type: "e-wallet",
-            logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/00/Logo_Gopay.svg/2118px-Logo_Gopay.svg.png",
+            logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrHqpXDb0hmJdMzUadRqBYFtVwXMC8fNmXZA&s",
             description: "Instant payment via GoPay wallet",
         },
         {
