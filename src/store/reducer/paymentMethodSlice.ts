@@ -2,66 +2,53 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { PaymentMethod } from "../../types/type";
 
 interface PaymentMethodState {
-    methods: PaymentMethod[];
+    availableMethods: PaymentMethod[];
+    selectedMethodId: string | null;
 }
 
 const initialState: PaymentMethodState = {
-    methods: [
+    availableMethods: [
         {
             id: "1",
             name: "GoPay",
-            accountNumber: "08123456789",
-            ownerName: "Muhammad Rizal",
             type: "e-wallet",
-            isDefault: true,
+            logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/00/Logo_Gopay.svg/2118px-Logo_Gopay.svg.png",
+            description: "Instant payment via GoPay wallet",
         },
         {
             id: "2",
             name: "OVO",
-            accountNumber: "08129876543",
-            ownerName: "Nur Hayati",
             type: "e-wallet",
-            isDefault: false,
+            logo: "https://topup.ebelanja.id/_next/image?url=https%3A%2F%2Fs3.belanjapasti.com%2Fmedia%2Fimage%2Fovo-rp1500-biaya-admin-272365.png&w=384&q=75",
+            description: "Secure OVO e-wallet payments",
         },
         {
             id: "3",
             name: "BCA Virtual Account",
-            accountNumber: "1234567890",
-            ownerName: "Ari Wibowo",
             type: "bank",
-            isDefault: false,
+            logo: "https://buatlogoonline.com/wp-content/uploads/2022/10/Logo-BCA-PNG.png",
+            description: "Pay via BCA Virtual Account",
+        },
+        {
+            id: "4",
+            name: "Mandiri Virtual Account",
+            type: "bank",
+            logo: "https://tuwaga.id/wp-content/uploads/2025/01/FI003-_-Mandiri-19.png",
+            description: "Mandiri Virtual Account transfer",
         },
     ],
+    selectedMethodId: null,
 };
 
 const paymentMethodSlice = createSlice({
     name: "paymentMethod",
     initialState,
     reducers: {
-        addPaymentMethod: (state, action: PayloadAction<PaymentMethod>) => {
-            state.methods.push(action.payload);
-        },
-        updatePaymentMethod: (state, action: PayloadAction<PaymentMethod>) => {
-            const index = state.methods.findIndex((m) => m.id === action.payload.id);
-            if (index > -1) state.methods[index] = action.payload;
-        },
-        deletePaymentMethod: (state, action: PayloadAction<string>) => {
-            state.methods = state.methods.filter((m) => m.id !== action.payload);
-        },
-        setDefaultPaymentMethod: (state, action: PayloadAction<string>) => {
-            state.methods = state.methods.map((m) => ({
-                ...m,
-                isDefault: m.id === action.payload,
-            }));
+        setSelectedPaymentMethod: (state, action: PayloadAction<string>) => {
+            state.selectedMethodId = action.payload;
         },
     },
 });
 
-export const {
-    addPaymentMethod,
-    updatePaymentMethod,
-    deletePaymentMethod,
-    setDefaultPaymentMethod,
-} = paymentMethodSlice.actions;
-
+export const { setSelectedPaymentMethod } = paymentMethodSlice.actions;
 export default paymentMethodSlice.reducer;

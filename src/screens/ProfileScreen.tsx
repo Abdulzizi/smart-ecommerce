@@ -44,13 +44,13 @@ const ProfileScreen = () => {
         <AppText style={styles.menuText}>My Addresses</AppText>
       </TouchableOpacity>
 
-      <TouchableOpacity
+      {/* <TouchableOpacity
         style={styles.menuItem}
-        onPress={() => navigation.navigate("PaymentScreen")}
+        onPress={() => navigation.navigate("PaymentMethodScreen")}
       >
         <Ionicons name="card-outline" size={22} color={AppColor.text} />
         <AppText style={styles.menuText}>My Payment Methods</AppText>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
 
       <TouchableOpacity
         style={styles.menuItem}

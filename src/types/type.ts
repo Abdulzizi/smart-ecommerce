@@ -22,14 +22,14 @@ export type Address = {
   isDefault?: boolean;
 };
 
-export type PaymentMethod = {
+export interface PaymentMethod {
   id: string;
-  name: string;
-  accountNumber: string;
-  ownerName: string;
-  type: "bank" | "e-wallet" | "credit-card";
-  isDefault?: boolean;
-};
+  name: string; 
+  type: "e-wallet" | "bank" | "credit-card";
+  logo?: string; 
+  description?: string;
+  feePercent?: number;
+}
 
 // COMPONENT
 export type AppTextProps = TextProps & {
